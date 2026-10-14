@@ -1,0 +1,10 @@
+# buildflow-analyzer: generated analysis output.
+# Recreate with:
+#   py -3 tools/buildflow_analyzer/run.py --limit 50 --outdir reports
+reports/
+
+# Local credential file for tools\run-analysis.cmd — never commit this.
+.env.cmd
+
+__pycache__/
+*.pyc

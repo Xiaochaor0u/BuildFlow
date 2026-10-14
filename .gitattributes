@@ -1,0 +1,12 @@
+# Normalise line endings in the repository so builds behave identically on Linux CI
+# and on Windows working copies. Upstream committed mvnw/Jenkinsfile with LF content but
+# no .gitattributes, so a Windows checkout rewrites them as CRLF and `sh ./mvnw` breaks.
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.jar binary
+*.class binary

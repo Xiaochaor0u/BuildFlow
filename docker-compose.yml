@@ -1,0 +1,9 @@
+version: '2'
+services:
+    devops-ci-cd-pipeline: 
+        # 镜像名通过环境变量注入，避免在仓库中固化任何个人镜像仓库账号：
+        #   set DOCKER_IMAGE=<registry>/<namespace>/devops-ci-cd-pipeline:latest
+        image: ${DOCKER_IMAGE:-devops-ci-cd-pipeline:latest}
+        ports:
+            - "8082:8082" 
+        restart: always

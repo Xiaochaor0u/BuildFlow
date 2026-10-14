@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 720" width="1180" height="720"
+     font-family="Segoe UI, Microsoft YaHei, -apple-system, Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d4ed8"/>
+    </marker>
+    <style>
+      .title   { font-size:22px; font-weight:700; fill:#0f172a; }
+      .subtitle{ font-size:13px; fill:#64748b; }
+      .grp     { fill:#ffffff; stroke:#cbd5e1; stroke-width:1.5; rx:10; }
+      .grpHead { font-size:13px; font-weight:700; fill:#334155; }
+      .box     { fill:#f8fafc; stroke:#94a3b8; stroke-width:1.4; rx:8; }
+      .boxOk   { fill:#eaf7ef; stroke:#37a05c; stroke-width:1.6; rx:8; }
+      .boxBlue { fill:#eaf1fb; stroke:#3b6fd4; stroke-width:1.6; rx:8; }
+      .boxWarn { fill:#fff7e8; stroke:#d9a441; stroke-width:1.6; rx:8; }
+      .boxMute { fill:#f1f5f9; stroke:#b6c2cf; stroke-width:1.4; stroke-dasharray:5 4; rx:8; }
+      .lbl     { font-size:13px; font-weight:600; fill:#0f172a; }
+      .lblSub  { font-size:11px; fill:#475569; }
+      .lblMute { font-size:11px; fill:#94a3b8; }
+      .flow     { stroke:#475569; stroke-width:1.8; fill:none; marker-end:url(#arrow); }
+      .flowBlue { stroke:#1d4ed8; stroke-width:1.8; fill:none; marker-end:url(#arrowBlue); }
+      .legend  { font-size:11.5px; fill:#475569; }
+      .stage   { font-size:11.5px; fill:#334155; }
+    </style>
+  </defs>
+
+  <rect width="1180" height="720" fill="#f8fafc"/>
+  <text class="title" x="28" y="38">BuildFlow — Jenkins CI/CD 流水线与效能分析架构</text>
+  <text class="subtitle" x="28" y="60">个人独立开发的研发持续集成与质量分析系统；实线 = 本地已实测跑通的链路，虚线 = 已实现但本环境未启用的集成能力</text>
+
+  <!-- ============ 1. Source ============ -->
+  <rect class="grp" x="28" y="86" width="250" height="150"/>
+  <text class="grpHead" x="44" y="110">① 源码与版本控制</text>
+  <rect class="box" x="44" y="122" width="218" height="46"/>
+  <text class="lbl" x="56" y="142">Git 仓库</text>
+  <text class="lblSub" x="56" y="159">单一可信源 · 构建精确关联 Commit</text>
+  <rect class="boxBlue" x="44" y="178" width="218" height="46"/>
+  <text class="lbl" x="56" y="198">BuildFlow 开发分支</text>
+  <text class="lblSub" x="56" y="215">修复 + 回归测试 + Jenkinsfile</text>
+
+  <!-- ============ 2. Jenkins ============ -->
+  <rect class="grp" x="308" y="86" width="330" height="470"/>
+  <text class="grpHead" x="326" y="110">② Jenkins 流水线（buildflow-ci）</text>
+
+  <rect class="boxBlue" x="326" y="124" width="294" height="44"/>
+  <text class="stage" x="338" y="145">Checkout</text>
+  <text class="lblMute" x="338" y="160">SCM 检出源码</text>
+
+  <rect class="boxBlue" x="326" y="176" width="294" height="58"/>
+  <text class="stage" x="338" y="197">Maven Test + Coverage + Package</text>
+  <text class="lblMute" x="338" y="213">一次 clean package：编译 / 11 个 Java 单测 /</text>
+  <text class="lblMute" x="338" y="227">JaCoCo 覆盖率报告 / 可执行 JAR</text>
+
+  <rect class="boxBlue" x="326" y="242" width="294" height="58"/>
+  <text class="stage" x="338" y="263">SonarQube Quality Gate</text>
+  <text class="lblMute" x="338" y="279">scanner 等待门禁结果；失败即中断，</text>
+  <text class="lblMute" x="338" y="293">不使用 catchError 吞掉失败</text>
+
+  <rect class="boxOk" x="326" y="308" width="294" height="72"/>
+  <text class="stage" x="338" y="329">Archive Artifact</text>
+  <text class="lblMute" x="338" y="345">复用已打包 JAR（不重复编译）→</text>
+  <text class="lblMute" x="338" y="359">SHA256 校验 + version-metadata.json</text>
+  <text class="lblMute" x="338" y="373">archiveArtifacts + fingerprint</text>
+
+  <rect class="boxMute" x="326" y="390" width="294" height="66"/>
+  <text class="stage" x="338" y="411">其他集成阶段（本环境未启用）</text>
+  <text class="lblMute" x="338" y="427">Docker 构建推送 / Nexus 制品上传 /</text>
+  <text class="lblMute" x="338" y="441">staging VM 部署（需额外凭据与主机）</text>
+
+  <rect class="boxWarn" x="326" y="466" width="294" height="72"/>
+  <text class="stage" x="338" y="487">制品归档内容（构建页面可下载）</text>
+  <text class="lblMute" x="338" y="503">devops-ci-cd-pipeline-0.0.1-SNAPSHOT.jar</text>
+  <text class="lblMute" x="338" y="517">…jar.sha256 / version-metadata.json</text>
+  <text class="lblMute" x="338" y="531">版本 = 0.0.1-SNAPSHOT.&lt;构建号&gt; @ &lt;commit&gt;</text>
+
+  <!-- ============ 3. Services ============ -->
+  <rect class="grp" x="686" y="86" width="230" height="200"/>
+  <text class="grpHead" x="704" y="110">③ 质量与制品服务</text>
+  <rect class="boxOk" x="704" y="122" width="194" height="66"/>
+  <text class="lbl" x="716" y="143">SonarQube 9.9.8</text>
+  <text class="lblSub" x="716" y="161">内置质量门禁 "Sonar way"</text>
+  <text class="lblSub" x="716" y="177">读取 JaCoCo XML 覆盖率</text>
+  <rect class="box" x="704" y="198" width="194" height="72"/>
+  <text class="lbl" x="716" y="219">Jenkins 构建页面</text>
+  <text class="lblSub" x="716" y="237">制品下载 / 指纹 / 测试报告</text>
+  <text class="lblSub" x="716" y="253">构建描述含版本与 commit</text>
+
+  <!-- ============ 4. Analyzer ============ -->
+  <rect class="grp" x="686" y="308" width="466" height="248"/>
+  <text class="grpHead" x="704" y="332">④ Python 效能分析工具（纯标准库）</text>
+
+  <rect class="boxBlue" x="704" y="346" width="200" height="80"/>
+  <text class="lbl" x="716" y="367">tools\run-analysis.cmd</text>
+  <text class="lblSub" x="716" y="385">一条命令入口</text>
+  <text class="lblSub" x="716" y="401">凭据读 tools\.env.cmd</text>
+  <text class="lblMute" x="716" y="417">（git-ignored，不入库）</text>
+
+  <rect class="boxBlue" x="922" y="346" width="212" height="80"/>
+  <text class="lbl" x="934" y="367">buildflow_analyzer</text>
+  <text class="lblSub" x="934" y="385">采集 → 分类 → 统计 → 渲染</text>
+  <text class="lblSub" x="934" y="401">Jenkins REST API（urllib）</text>
+  <text class="lblMute" x="934" y="417">不安装任何 Jenkins 插件</text>
+
+  <rect class="boxOk" x="704" y="442" width="430" height="94"/>
+  <text class="lbl" x="716" y="463">报告输出（reports\）</text>
+  <text class="lblSub" x="716" y="481">buildflow-report.html — 成功率 / 耗时趋势 / 失败分布 / 构建明细</text>
+  <text class="lblSub" x="716" y="497">buildflow-builds.csv — 每条构建：编号 / 状态 / Commit / 失败阶段 / 分类依据</text>
+  <text class="lblSub" x="716" y="513">buildflow-summary.json — 机器可读汇总</text>
+  <text class="lblMute" x="716" y="529">含冷启动说明，避免首次构建耗时误导趋势解读</text>
+
+  <!-- ============ flows ============ -->
+  <path class="flow" d="M 262 145 L 320 145"/>
+  <path class="flow" d="M 262 200 L 320 200"/>
+  <path class="flowBlue" d="M 620 147 L 700 147"/>
+  <path class="flowBlue" d="M 620 271 L 660 271 L 660 155 L 700 155"/>
+  <path class="flowBlue" d="M 620 344 L 660 344 L 660 232 L 700 232"/>
+  <path class="flow" d="M 620 200 L 680 200 L 680 386 L 700 386"/>
+  <path class="flow" d="M 904 426 L 904 442"/>
+
+  <!-- ============ verification band ============ -->
+  <rect class="grp" x="28" y="572" width="1124" height="126"/>
+  <text class="grpHead" x="44" y="596">⑤ 最终验证结果（关键路径）</text>
+  <rect class="boxOk" x="44" y="608" width="352" height="76"/>
+  <text class="lbl" x="58" y="629">正常构建：构建 #20 → SUCCESS</text>
+  <text class="lblSub" x="58" y="647">11 个 Java 单测通过 · 质量门禁 PASSED</text>
+  <text class="lblSub" x="58" y="663">JAR + SHA256 + 版本元数据已归档</text>
+  <rect class="boxWarn" x="410" y="608" width="352" height="76"/>
+  <text class="lbl" x="424" y="629">门禁失败：构建 #21 → FAILURE</text>
+  <text class="lblSub" x="424" y="647">QUALITY GATE STATUS: FAILED</text>
+  <text class="lblSub" x="424" y="663">Archive Artifact 被跳过，无制品发布</text>
+  <rect class="boxBlue" x="776" y="608" width="358" height="76"/>
+  <text class="lbl" x="790" y="629">分析工具：21 条真实构建</text>
+  <text class="lblSub" x="790" y="647">成功率 52.4% · 10 次失败全部分类</text>
+  <text class="lblSub" x="790" y="663">HTML / CSV / JSON 报告已生成</text>
+
+  <!-- legend -->
+  <line class="flow" x1="28" y1="714" x2="70" y2="714"/>
+  <text class="legend" x="78" y="718">本地已实测</text>
+  <line class="flowBlue" x1="180" y1="714" x2="222" y2="714"/>
+  <text class="legend" x="230" y="718">数据/控制流</text>
+  <line x1="330" y1="714" x2="372" y2="714" stroke="#b6c2cf" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text class="legend" x="380" y="718">集成能力，本环境未启用（需额外凭据/主机）</text>
+</svg>

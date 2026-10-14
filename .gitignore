@@ -1,0 +1,45 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### build artifacts accidentally committed upstream ###
+bin/**/*.class
+
+### buildflow-analyzer: generated analysis output ###
+# Recreate with:
+#   py -3 tools/buildflow_analyzer/run.py --limit 50 --outdir reports
+/reports/
+tools/buildflow_analyzer/__pycache__/
+tools/buildflow_analyzer/tests/__pycache__/
+*.pyc
+
